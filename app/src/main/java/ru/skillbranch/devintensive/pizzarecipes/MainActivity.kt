@@ -1,17 +1,15 @@
 package ru.skillbranch.devintensive.pizzarecipes
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.list_pizza.*
 
 class MainActivity : AppCompatActivity() {
 
     lateinit var method: ArrayList<String>
+    lateinit var pizzaName: ArrayList<String>
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,7 +23,7 @@ class MainActivity : AppCompatActivity() {
             R.drawable.pizza4,
             R.drawable.pizza5
         )
-        val pizzaName = arrayListOf(
+        pizzaName = arrayListOf(
             "Pizza",
             "Pizza Margherita",
             "Superhealthy pizza",
@@ -40,7 +38,7 @@ class MainActivity : AppCompatActivity() {
             "Kids will love this quick supper. Experiment with different toppings such as sweetcorn and ham"
         )
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
 
         val pizza: ArrayList<Object>
         pizza = arrayListOf(Object(listPicture[0], pizzaName[0], pizzaRecipes[0]))
@@ -49,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         pizza.add(Object(listPicture[3], pizzaName[3], pizzaRecipes[3]))
         pizza.add(Object(listPicture[4], pizzaName[4], pizzaRecipes[4]))
 
-        recyclerView.adapter = CustomRecycly(pizza, this@Main)
+        recyclerView.adapter = CustomRecycly(pizza, onClickListen = this@MainActivity::openActivity )
 
         method = arrayListOf(
             "1 Mix together the yeast and sugar with 250ml warm water and leave to sit for 10 mins. Place half the flour in a table-top mixer with a dough hook, pour in the yeast mixture and beat at medium speed for 10 mins (or mix in a bowl, then knead with oiled hands in the bowl for 5-10 mins).\n" +
@@ -82,16 +80,15 @@ class MainActivity : AppCompatActivity() {
         )
 
 
-        this@fun onClickListen(position: Int){
-            val intent = Intent(this, Pizza2Activity::class.java).apply {
-                putExtra("Extra",method[position])
-            }
-            startActivity(intent)
-        }
-
 
     }
 
+    private fun openActivity(position: Int) {
+        val intent = Intent(this, Pizza2Activity::class.java).apply {
+            putExtra("Extra", method[position])
+            putExtra("Name", pizzaName[position])
+        }
+        startActivity(intent)
 
-
+    }
 }

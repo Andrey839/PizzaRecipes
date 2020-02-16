@@ -11,7 +11,9 @@ class Pizza2Activity : AppCompatActivity() {
         setContentView(R.layout.activity_pizza2)
 
         val txt = intent.getStringExtra("Extra")
+        val name = intent.getStringExtra("Name")
 
         textView3.text = txt
+        textView4.text = name
     }
 }
